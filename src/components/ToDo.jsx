@@ -26,6 +26,17 @@ const useStyles = makeStyles((theme) => ({
 
 function ToDo() {
   const classes = useStyles();
+  //hooks
+  const [todos, setTodos] = React.useState([]);
+  const [inputValue, setInputValue] = React.useState("");
+  const onChangeInputValue = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const onClickButton = () => {
+    setTodos([...todos, inputValue]);
+  };
+
   return (
     <Container className={classes.container} maxWidth="sm">
       <Grid container>
@@ -35,7 +46,12 @@ function ToDo() {
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <TextField fullWidth label="Note" />
+          <TextField
+            fullWidth
+            label="Note"
+            value={inputValue}
+            onChange={onChangeInputValue}
+          />
         </Grid>
 
         <Grid className={classes.button} item xs={12}>
@@ -43,6 +59,7 @@ function ToDo() {
             className={classes.button}
             variant="contained"
             color="primary"
+            onClick={onClickButton}
           >
             Add note
           </Button>
