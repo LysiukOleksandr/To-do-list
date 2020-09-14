@@ -29,12 +29,21 @@ function ToDo() {
   //hooks
   const [todos, setTodos] = React.useState([]);
   const [inputValue, setInputValue] = React.useState("");
+
   const onChangeInputValue = (e) => {
     setInputValue(e.target.value);
   };
 
-  const onClickButton = () => {
-    setTodos([...todos, inputValue]);
+  const onAddNote = (e) => {
+    setTodos([inputValue, ...todos]);
+    setInputValue("");
+  };
+
+  const onResetNote = (indexItem) => {
+    const newTodos = todos.filter((_, index) => {
+      return index !== indexItem;
+    });
+    setTodos(newTodos);
   };
 
   return (
@@ -53,19 +62,19 @@ function ToDo() {
             onChange={onChangeInputValue}
           />
         </Grid>
-
         <Grid className={classes.button} item xs={12}>
           <Button
             className={classes.button}
             variant="contained"
             color="primary"
-            onClick={onClickButton}
+            onClick={onAddNote}
+            disabled={inputValue.length <= 3 ? true : false}
           >
             Add note
           </Button>
         </Grid>
         <Grid className={classes.notes} item xs={12}>
-          <Notes />
+          <Notes notes={todos} onResetNote={onResetNote} />
         </Grid>
       </Grid>
     </Container>
